@@ -13,7 +13,13 @@ let cors         = require('cors')
 
 // DB config
 let configDB = require('./config/database.js');
-mongoose.connect(configDB.url, {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect(configDB.url, {useNewUrlParser: true, useUnifiedTopology: true}).then(() => {
+    console.log("Connected to mongoDB");
+  })
+  .catch((e) => {
+    console.log("Error while DB connecting");
+    console.log(e);
+  });
 
 require('./config/passport')(passport);
 
