@@ -2,7 +2,6 @@ let express  = require('express');
 let app      = express();
 let mongoose = require('mongoose');
 let passport = require('passport');
-let flash    = require('connect-flash');
 require('dotenv').config()
 
 let morgan       = require('morgan');
@@ -25,18 +24,17 @@ require('./config/passport')(passport);
 
 app.use(cors());
 app.use(morgan('dev')); 
-app.use(cookieParser()); 
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 // Set up the ejs templating
-app.set('view engine', 'ejs');
+// app.set('view engine', 'ejs');
 
 // Passport init
 app.use(session({ secret: 'passport-js', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(flash());
 
 require('./app/routes.js')(app, passport);
 

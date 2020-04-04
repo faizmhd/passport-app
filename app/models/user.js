@@ -1,5 +1,7 @@
 let mongoose = require('mongoose');
 let bcrypt   = require('bcrypt-nodejs');
+let jwt      = require('jsonwebtoken');
+let jwt_secret = require('../../config/config');
 
 // Define the User Schema
 let userSchema = mongoose.Schema({
@@ -30,5 +32,17 @@ userSchema.methods.generateHash = function(password) {
 userSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.local.password);
 };
+
+userSchema.methods.generateJWT = (mail) => {
+    const today = new Date();
+    const expirationDate = new Date(today);
+    expirationDate.setDate(today.getDate() + 60);
+
+    return jwt.sign({
+        email: mail,
+        id: this._id,
+        exp: parseInt(expirationDate.getTime() / 1000, 10),
+    }, jwt_secret.secret);
+}
 
 module.exports = mongoose.model('User', userSchema);
