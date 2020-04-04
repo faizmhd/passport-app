@@ -1,60 +1,131 @@
+const mongoose = require('mongoose');
+const User = mongoose.model('User');
 module.exports = function (app, passport) {
 
-    // Render default page
-    app.get('/', function (req, res) {
-        res.render('index.ejs');
+    app.post('/login', (req, res, next) => {
+        const user = req.body;
+        if (!user.email) {
+            return res.status(422).json({
+                errors: {
+                    email: 'is required',
+                },
+            });
+        };
+
+        if (!user.password) {
+            return res.status(422).json({
+                errors: {
+                    password: 'is required',
+                },
+            });
+        };
+
+        return passport.authenticate('local-login', (err, passportUser, info) => {
+            if(err) {
+              return res.json({'errors' : err});
+            }
+        
+            if(passportUser) { 
+              return res.json({ user: passportUser, token: passportUser.generateJWT(passportUser.local.email)});
+            }
+        
+            return res.status(400).json({
+                info
+            });
+          })(req, res, next);
+
     });
 
-    app.get('/login', function (req, res) {
-        res.render('login.ejs', { message: req.flash('loginMessage') });
+    app.post('/signup', (req, res, next) => {
+        const user = req.body;
+        if (!user.email) {
+            return res.status(422).json({
+                errors: {
+                    email: 'is required',
+                },
+            });
+        };
+
+        if (!user.password) {
+            return res.status(422).json({
+                errors: {
+                    password: 'is required',
+                },
+            });
+        };
+
+        return passport.authenticate('local-signup', (err, passportUser, info) => {
+            if(err) {
+              return res.json({'errors' : err});
+            }
+        
+            if(passportUser) { 
+              return res.json({ user: passportUser, token: passportUser.generateJWT(passportUser.local.email)});
+            }
+        
+            return res.status(400).json({
+                info
+            });
+          })(req, res, next);
+
     });
 
-    app.get('/signup', function (req, res) {
-        res.render('signup.ejs', { message: req.flash('signupMessage') });
-    });
+    // app.post('/login', passport.authenticate('local-login'));
 
-    app.get('/profile', isLoggedIn, function (req, res) {
-        res.render('profile.ejs', {
-            user: req.user
-        });
-    });
+    // app.get('/', function (req, res) {
+    //     res.render('index.ejs');
+    // });
 
-    app.get('/logout', function (req, res) {
-        req.logout();
-        res.redirect('/');
-    });
+    // app.get('/login', function (req, res) {
+    //     res.render('login.ejs', { message: req.flash('loginMessage') });
+    // });
 
-    app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect: '/profile',
-        failureRedirect: '/signup',
-        failureFlash: true
-    }));
+    // app.get('/signup', function (req, res) {
+    //     res.render('signup.ejs', { message: req.flash('signupMessage') });
+    // });
 
-    app.post('/login', passport.authenticate('local-login', {
-        successRedirect: '/profile',
-        failureRedirect: '/login',
-        failureFlash: true
-    }));
+    // app.get('/profile', isLoggedIn, function (req, res) {
+    //     res.render('profile.ejs', {
+    //         user: req.user
+    //     });
+    // });
 
-    app.get('/auth/facebook', passport.authenticate('facebook', {
-        scope: ['email']
-    }));
+    // app.get('/logout', function (req, res) {
+    //     req.logout();
+    //     res.redirect('/');
+    // });
 
-    app.get('/auth/facebook/callback',
-        passport.authenticate('facebook', {
-            successRedirect: '/profile',
-            failureRedirect: '/',
-            scope: ['email']
-        }));
-    app.get('/auth/google', passport.authenticate('google', {
-        scope: ['profile', 'email']
-    }));
+    // app.post('/signup', passport.authenticate('local-signup', {
+    //     successRedirect: '/profile',
+    //     failureRedirect: '/signup',
+    //     failureFlash: true
+    // }));
 
-    app.get('/auth/google/callback',
-        passport.authenticate('google', {
-            successRedirect: '/profile',
-            failureRedirect: '/'
-        }));
+    // app.post('/login', passport.authenticate('local-login', {
+    //     successRedirect: '/profile',
+    //     failureRedirect: '/login',
+    //     failureFlash: true
+    // }));
+
+    // app.get('/auth/facebook', passport.authenticate('facebook', {
+    //     scope: ['email']
+    // }));
+
+    // app.get('/auth/facebook/callback',
+    //     passport.authenticate('facebook', {
+    //         successRedirect: '/profile',
+    //         failureRedirect: '/',
+    //         scope: ['email']
+    //     }));
+    // app.get('/auth/google', passport.authenticate('google', {
+    //     scope: ['profile', 'email']
+    // }));
+
+    // app.get('/auth/google/callback',
+    //     passport.authenticate('google', {
+    //         successRedirect: '/profile',
+    //         failureRedirect: '/'
+    //     }));
 
 };
 
