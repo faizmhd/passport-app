@@ -9,6 +9,7 @@ let morgan       = require('morgan');
 let cookieParser = require('cookie-parser');
 let bodyParser   = require('body-parser');
 let session      = require('express-session');
+let cors         = require('cors')
 
 // DB config
 let configDB = require('./config/database.js');
@@ -16,6 +17,7 @@ mongoose.connect(configDB.url, {useNewUrlParser: true, useUnifiedTopology: true}
 
 require('./config/passport')(passport);
 
+app.use(cors());
 app.use(morgan('dev')); 
 app.use(cookieParser()); 
 app.use(bodyParser.urlencoded({ extended: true }));
