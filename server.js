@@ -28,9 +28,6 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Set up the ejs templating
-// app.set('view engine', 'ejs');
-
 // Passport init
 app.use(session({ secret: 'passport-js', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: false }));
 app.use(passport.initialize());

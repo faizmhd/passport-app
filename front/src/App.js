@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import { Login } from "./components/Login/Login";
 import { Signup } from "./components/Signup/Signup";
-import { PrivateRoute } from "./components/PrivateRoute";
 import { Game } from "./components/Game/Game";
 import { Welcome } from "./components/Welcome/Welcome";
 import { NotFound } from "./components/NotFound/NotFound";
@@ -17,7 +16,7 @@ class App extends React.Component {
             <Route exact path="/" component={Welcome} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
-            <PrivateRoute exact path="/game" component={Game} />
+            <Route exact path="/game" component={Game} />
             <Route path='/error' component={NotFound} />
             <Redirect from='*' to='/error' />
           </Switch>

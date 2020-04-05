@@ -17,22 +17,34 @@ export class Login extends React.Component {
     password: '',
     errors : {
       email: '',
-      password: '',
-    }
+      password: ''
+    },
+    message: ''
   };
   send = async () => {
-    const { email, password } = this.state;
-    if (validateForm(this.state.errors)) {
+    const { email, password, errors } = this.state;
+    if (email && password && validateForm(this.state.errors)) {
       console.info('Valid Form')
       try {
         const { data } = await API.login(email, password);
-        localStorage.setItem("token", data.token);
-        window.location = "/game";
+        console.log('data',data)
+        if(data.token){
+          localStorage.setItem("token", data.token);
+          window.location = "/game";
+        }
+        else{
+          this.setState({
+            message: data.info.message
+          });
+        }
+
       } catch (error) {
         console.error(error);
       }
     } else {
-      console.error('Invalid Form')
+      this.setState({
+        message: 'Invalid Form'
+      });
     }
   };
   handleChange = (event) => {
@@ -62,9 +74,11 @@ export class Login extends React.Component {
     });
   };
   render() {
-    const { email, password, errors } = this.state;
+    const { email, password, errors, message } = this.state;
     return (
       <div className="Login">
+      {message.length > 0 && 
+        <div className="alert alert-danger">{message}</div>}
         <FormGroup controlId="email" bssize="large">
           <FormLabel>Email</FormLabel>
           <FormControl

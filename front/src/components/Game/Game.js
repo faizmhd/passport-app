@@ -3,6 +3,8 @@ import './Game.css';
 import classNames from 'classnames';
 import { Text } from 'react-native'
 import { Button } from "react-bootstrap";
+import queryString from "query-string";
+import { Redirect } from 'react-router-dom';
 
 import API from "../../utils/API";
 
@@ -63,6 +65,13 @@ export class Game extends React.Component {
     API.logout();
     window.location = "/";
   };
+  componentDidMount() {
+    var query = queryString.parse(this.props.location.search);
+    if (query.token) {
+      localStorage.setItem('token', query.token);
+      this.props.history.push("/game");
+   }
+  }
   highlightSquare(winner) {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
@@ -108,6 +117,13 @@ export class Game extends React.Component {
     return location;
   }
   render() {
+    if(localStorage.getItem('token') === null){
+      return(
+        <div>
+          <Redirect from='/game' to='/' />
+        </div>
+      )
+    }
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
