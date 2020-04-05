@@ -24,7 +24,7 @@ export class Signup extends React.Component {
     }
   };
   send = async () => {
-    const { email, password, cpassword, errors } = this.state;
+    const { email, password } = this.state;
     if (validateForm(this.state.errors)) {
       console.info('Valid Form')
       try {
@@ -62,6 +62,7 @@ export class Signup extends React.Component {
         this.state.password !== value
         ? 'Password didn\'t correspond'
         : ''
+        break;
       default:
         break;
     }

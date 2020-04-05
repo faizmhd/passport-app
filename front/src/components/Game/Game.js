@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './Game.css';
 import classNames from 'classnames';
 import { Text } from 'react-native'

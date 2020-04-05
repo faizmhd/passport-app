@@ -21,7 +21,7 @@ export class Login extends React.Component {
     }
   };
   send = async () => {
-    const { email, password, errors } = this.state;
+    const { email, password } = this.state;
     if (validateForm(this.state.errors)) {
       console.info('Valid Form')
       try {
