@@ -1,8 +1,10 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './Game.css';
 import classNames from 'classnames';
 import { Text } from 'react-native'
+import { Button } from "react-bootstrap";
+
+import API from "../../utils/API";
 
 class Square extends React.Component {
   render() {
@@ -44,7 +46,7 @@ class Board extends React.Component {
   }
 }
 
-class Game extends React.Component {
+export class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -57,6 +59,10 @@ class Game extends React.Component {
       xIsNext: true,
     };
   }
+  disconnect = () => {
+    API.logout();
+    window.location = "/";
+  };
   highlightSquare(winner) {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
@@ -151,6 +157,11 @@ class Game extends React.Component {
           <div>{status}</div>
           <ol>{moves}</ol>
         </div>
+        <div className="logout">
+          <Button onClick={this.disconnect} block bssize="large" type="submit">
+            Se déconnecter
+        </Button>
+        </div>
       </div>
     );
   }
@@ -182,5 +193,3 @@ function calculateWinner(squares) {
 //   <Game />,
 //   document.getElementById('root')
 // );
-
-export default Game;

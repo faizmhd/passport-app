@@ -1,0 +1,11 @@
+.error {
+    color:#db2269;
+    display: relative;
+  }
+
+.Login {
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  margin-top: 100px;
+}

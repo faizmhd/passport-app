@@ -3,22 +3,6 @@ const User = mongoose.model('User');
 module.exports = function (app, passport) {
 
     app.post('/login', (req, res, next) => {
-        const user = req.body;
-        if (!user.email) {
-            return res.status(422).json({
-                errors: {
-                    email: 'is required',
-                },
-            });
-        };
-
-        if (!user.password) {
-            return res.status(422).json({
-                errors: {
-                    password: 'is required',
-                },
-            });
-        };
 
         return passport.authenticate('local-login', (err, passportUser, info) => {
             if(err) {
@@ -37,22 +21,6 @@ module.exports = function (app, passport) {
     });
 
     app.post('/signup', (req, res, next) => {
-        const user = req.body;
-        if (!user.email) {
-            return res.status(422).json({
-                errors: {
-                    email: 'is required',
-                },
-            });
-        };
-
-        if (!user.password) {
-            return res.status(422).json({
-                errors: {
-                    password: 'is required',
-                },
-            });
-        };
 
         return passport.authenticate('local-signup', (err, passportUser, info) => {
             if(err) {
