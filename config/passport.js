@@ -88,6 +88,7 @@ module.exports = (passport) => {
                         let newUser = new User();
 
                         newUser.facebook.id = profile.id;
+                        console.log("fb-token", token)
                         newUser.facebook.token = token;
                         newUser.facebook.name = profile.name.givenName + ' ' + profile.name.familyName;
                         newUser.facebook.email = profile.emails[0].value;
