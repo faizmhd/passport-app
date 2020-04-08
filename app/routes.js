@@ -4,7 +4,7 @@ module.exports = function (app, passport) {
 
   app.post('/login', (req, res, next) => {
     
-    return passport.authenticate('local-login', (err, passportUser, info) => {
+    return passport.authenticate('local-login', { session: false }, (err, passportUser, info) => {
       if (err) {
         return res.json({ 'errors': err });
       }
@@ -22,7 +22,7 @@ module.exports = function (app, passport) {
 
   app.post('/signup', (req, res, next) => {
 
-    return passport.authenticate('local-signup', (err, passportUser, info) => {
+    return passport.authenticate('local-signup', { session: false }, (err, passportUser, info) => {
       if (err) {
         return res.json({ 'errors': err });
       }
@@ -38,34 +38,26 @@ module.exports = function (app, passport) {
 
   });
 
-  app.get('/auth/facebook', passport.authenticate('facebook', {
+  app.get('/auth/facebook', passport.authenticate('facebook', { session: false }, {
       scope: ['email']
   }));
 
   app.get('/auth/facebook/callback',
-    passport.authenticate('facebook', {
+    passport.authenticate('facebook', { session: false }, {
       scope: ['email']
     }), (req, res) => {
       let token = req.user.facebook.token;
       res.redirect('http://localhost:3000/game?token='+token)
     });
-  // app.get('/auth/google', passport.authenticate('google', {
-  //     scope: ['profile', 'email']
-  // }));
 
-  // app.get('/auth/google/callback',
-  //     passport.authenticate('google', {
-  //         successRedirect: '/profile',
-  //         failureRedirect: '/'
-  //     }));
+  app.get('/auth/google', passport.authenticate('google', { session: false }, {
+      scope: ['profile', 'email']
+  }));
+
+  app.get('/auth/google/callback',
+      passport.authenticate('google', { session: false }), (req, res) => {
+        let token = req.user.google.token;
+        res.redirect('http://localhost:3000/game?token='+token)
+      });
 
 };
-
-// Check to be sure that a user is logged in
-function isLoggedIn(req, res, next) {
-
-  if (req.isAuthenticated())
-    return next();
-
-  res.redirect('/');
-}
