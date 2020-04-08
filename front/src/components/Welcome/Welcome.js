@@ -1,7 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
 import './Welcome.css';
-import API from "../../utils/API";
 
 export class Welcome extends React.Component {
   render() {
@@ -17,7 +16,7 @@ export class Welcome extends React.Component {
           <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Local Login</a>
           <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>
           <a href="http://localhost:8000/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
-          <a href="/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google</a>
+          <a href="http://localhost:8000/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google</a>
         </div>
       </div>
     );

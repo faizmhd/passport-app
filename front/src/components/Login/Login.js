@@ -22,7 +22,7 @@ export class Login extends React.Component {
     message: ''
   };
   send = async () => {
-    const { email, password, errors } = this.state;
+    const { email, password } = this.state;
     if (email && password && validateForm(this.state.errors)) {
       console.info('Valid Form')
       try {
@@ -79,7 +79,7 @@ export class Login extends React.Component {
       <div className="Login">
       {message.length > 0 && 
         <div className="alert alert-danger">{message}</div>}
-        <FormGroup controlId="email" bssize="large">
+        <FormGroup controlId="email" bssize="large" >
           <FormLabel>Email</FormLabel>
           <FormControl
             autoFocus
@@ -87,22 +87,24 @@ export class Login extends React.Component {
             name='email'
             value={email}
             onChange={this.handleChange}
+            placeholder="Enter email"
           />
           {errors.email.length > 0 && 
                 <span className='error'>{errors.email}</span>}
         </FormGroup>
-        <FormGroup controlId="password" bssize="large">
+        <FormGroup controlId="password" bssize="large" >
           <FormLabel>Password</FormLabel>
           <FormControl
             value={password}
             onChange={this.handleChange}
             type="password"
             name='password'
+            placeholder="Enter password"
           />
           {errors.password.length > 0 && 
                 <span className='error'>{errors.password}</span>}
         </FormGroup>
-        <Button onClick={this.send} block bssize="large" type="submit">
+        <Button onClick={this.send} block bssize='large' type="submit">
           Connexion
         </Button>
       </div>
