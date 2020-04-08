@@ -27,7 +27,6 @@ export class Login extends React.Component {
       console.info('Valid Form')
       try {
         const { data } = await API.login(email, password);
-        console.log('data',data)
         if(data.token){
           localStorage.setItem("token", data.token);
           window.location = "/game";
@@ -61,7 +60,7 @@ export class Login extends React.Component {
         break;
       case 'password':
         errors.password =
-          value.length < 4
+          value.length < 8
             ? 'Password must be 8 characters long!'
             : '';
         break;

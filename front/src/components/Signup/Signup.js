@@ -21,7 +21,8 @@ export class Signup extends React.Component {
       email: '',
       password: '',
       cpassword: '',
-    }
+    },
+    message: ''
   };
   send = async () => {
     const { email, password } = this.state;
@@ -29,15 +30,24 @@ export class Signup extends React.Component {
       console.info('Valid Form')
       try {
         const { data } = await API.signup({ email, password });
-        localStorage.setItem("token", data.token);
-        window.location = "/game";
+        if (data.token) {
+          localStorage.setItem("token", data.token);
+          window.location = "/game";
+        }
+        else {
+          this.setState({
+            message: data.info.message
+          });
+        }
       } catch (error) {
         console.error(error);
       }
     } else {
-      console.error('Invalid Form');
+      this.setState({
+        message: 'Invalid Form'
+      });
     }
-    
+
   };
   handleChange = (event) => {
     event.preventDefault();
@@ -58,10 +68,10 @@ export class Signup extends React.Component {
             : '';
         break;
       case 'cpassword':
-        errors.cpassword = 
-        this.state.password !== value
-        ? 'Password didn\'t correspond'
-        : ''
+        errors.cpassword =
+          this.state.password !== value
+            ? 'Password didn\'t correspond'
+            : ''
         break;
       default:
         break;
@@ -72,9 +82,11 @@ export class Signup extends React.Component {
     });
   };
   render() {
-    const { email, password, cpassword, errors } = this.state;
+    const { email, password, cpassword, errors, message } = this.state;
     return (
       <div className="Login">
+      {message.length > 0 && 
+        <div className="alert alert-danger">{message}</div>}
         <FormGroup controlId="email" bssize="large">
           <FormLabel>Email</FormLabel>
           <FormControl
@@ -82,10 +94,10 @@ export class Signup extends React.Component {
             type="email"
             value={email}
             onChange={this.handleChange}
-            name = 'email'
+            name='email'
           />
-          {errors.email.length > 0 && 
-                <span className='error'>{errors.email}</span>}
+          {errors.email.length > 0 &&
+            <span className='error'>{errors.email}</span>}
         </FormGroup>
         <FormGroup controlId="password" bssize="large">
           <FormLabel>Password</FormLabel>
@@ -95,8 +107,8 @@ export class Signup extends React.Component {
             type="password"
             name='password'
           />
-          {errors.password.length > 0 && 
-                <span className='error'>{errors.password}</span>}
+          {errors.password.length > 0 &&
+            <span className='error'>{errors.password}</span>}
         </FormGroup>
         <FormGroup controlId="cpassword" bssize="large">
           <FormLabel>Confirm Password</FormLabel>
@@ -106,8 +118,8 @@ export class Signup extends React.Component {
             type="password"
             name='cpassword'
           />
-          {errors.cpassword.length > 0 && 
-                <span className='error'>{errors.cpassword}</span>}
+          {errors.cpassword.length > 0 &&
+            <span className='error'>{errors.cpassword}</span>}
         </FormGroup>
         <Button onClick={this.send} block bssize="large" type="submit">
           Inscription

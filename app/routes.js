@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const User = mongoose.model('User');
 module.exports = function (app, passport) {
 
   app.post('/login', (req, res, next) => {
@@ -31,7 +30,7 @@ module.exports = function (app, passport) {
         return res.json({ user: passportUser, token: passportUser.generateJWT(passportUser.local.email) });
       }
 
-      return res.status(400).json({
+      return res.json({
         info
       });
     })(req, res, next);
