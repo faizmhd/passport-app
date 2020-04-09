@@ -1,21 +1,19 @@
-version: "3"
+version: "3.7"
 services:
   backend:
-    container_name: Faiz App Back-end
+    container_name: Faiz-App-Back-end
     restart: always
     build:
-      context: .
+      context: ./back
       dockerfile: Dockerfile
     volumes:
-       - .:/usr/src/app
-       - /usr/src/app/node_modules
+      - ./back/:/usr/src/app
+      - /usr/src/app/node_modules
     ports:
       - "8000:8000"
-    links:
-      - mongo
     depends_on:
       - mongo
-    env_file: .env
+    env_file: ./back/.env
   mongo:
     container_name: mongo
     image: mongo
@@ -23,6 +21,21 @@ services:
       - mongo-storage:/data/db
     ports:
       - "27017:27017"
+  frontend:
+    container_name: Faiz-App-Front-end
+    restart: always
+    build: 
+      context: ./front
+      dockerfile: Dockerfile
+    volumes:
+      - ./front/:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    stdin_open: true # Fix [React-Scripts] v3.4.1 to start with docker-compose cmd
 volumes:
+  node_modules:
   mongo-storage:
     driver: local
