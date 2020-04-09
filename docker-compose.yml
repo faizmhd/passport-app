@@ -1,0 +1,28 @@
+version: "3"
+services:
+  backend:
+    container_name: Faiz App Back-end
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+       - .:/usr/src/app
+       - /usr/src/app/node_modules
+    ports:
+      - "8000:8000"
+    links:
+      - mongo
+    depends_on:
+      - mongo
+    env_file: .env
+  mongo:
+    container_name: mongo
+    image: mongo
+    volumes:
+      - mongo-storage:/data/db
+    ports:
+      - "27017:27017"
+volumes:
+  mongo-storage:
+    driver: local
