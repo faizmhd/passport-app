@@ -59,4 +59,8 @@ module.exports = function (app, passport) {
         res.redirect('http://localhost:3000/game?token='+token)
       });
 
+  app.get('/jwt', passport.authenticate('jwt-auth', { session: false }), (req, res) => {
+      res.json({user: req.user})
+  })
+
 };

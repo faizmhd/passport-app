@@ -35,8 +35,9 @@ userSchema.methods.validPassword = function(password) {
 
 userSchema.methods.generateJWT = (mail) => {
     const today = new Date();
-    const expirationDate = new Date(today);
-    expirationDate.setDate(today.getDate() + 60);
+    // JWT Token expires 15 minutes after the creation
+    const expirationDate = new Date(today); 
+    expirationDate.setMinutes(today.getMinutes() + 15);
 
     return jwt.sign({
         email: mail,
