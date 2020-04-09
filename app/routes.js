@@ -37,24 +37,24 @@ module.exports = function (app, passport) {
 
   });
 
-  app.get('/auth/facebook', passport.authenticate('facebook', { session: false }, {
+  app.get('/auth/facebook', passport.authenticate('facebook', {
     scope: ['email']
   }));
 
   app.get('/auth/facebook/callback',
-    passport.authenticate('facebook', { session: false }), (req, res) => {
+    passport.authenticate('facebook', {
+      scope: ['email']
+    }), (req, res) => {
       let token = req.user.facebook.token;
       res.redirect('http://localhost:3000/game?token=' + token)
     });
 
-  app.get('/auth/google', passport.authenticate('google', { session: false }, {
+  app.get('/auth/google', passport.authenticate('google', {
     scope: ['profile', 'email']
   }));
 
   app.get('/auth/google/callback',
-    passport.authenticate('google', { session: false }, {
-      scope: ['profile', 'email']
-    }), (req, res) => {
+    passport.authenticate('google', ), (req, res) => {
       let token = req.user.google.token;
       res.redirect('http://localhost:3000/game?token=' + token)
     });
