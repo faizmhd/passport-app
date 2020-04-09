@@ -1,4 +1,4 @@
-# Dockerfile for React Frontend
+# Dockerfile for Node Express Backend api
 
 FROM node:13.12.0-alpine3.10
 # Working directory
@@ -8,6 +8,6 @@ COPY . .
 # Install dependencies
 RUN npm install
 # Expose the backend port
-EXPOSE 3000
+EXPOSE 8000
 # Define the cmd to start the backend
-CMD [ "npm", "start" ]
+CMD [ "node", "server.js" ]
