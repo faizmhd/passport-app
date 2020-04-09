@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 module.exports = function (app, passport) {
-
+  
   app.post('/login', (req, res, next) => {
 
     return passport.authenticate('local-login', { session: false }, (err, passportUser, info) => {

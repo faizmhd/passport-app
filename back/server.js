@@ -10,6 +10,7 @@ let bodyParser   = require('body-parser');
 let session      = require('express-session');
 let cors         = require('cors');
 let helmet = require('helmet');
+let path = require('path');
 
 // DB config
 let configDB = require('./config/database.js');
