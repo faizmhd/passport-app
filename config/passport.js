@@ -1,6 +1,9 @@
 let LocalStrategy = require('passport-local').Strategy;
 let FacebookStrategy = require('passport-facebook').Strategy;
 let GoogleStrategy = require('passport-google-oauth2').Strategy;
+let JwtStrategy = require('passport-jwt').Strategy,
+    ExtractJwt = require('passport-jwt').ExtractJwt;
+let jwt_secret = require('./config');
 
 let User = require('../app/models/user');
 
@@ -64,6 +67,26 @@ module.exports = (passport) => {
                 return done(null, user);
             });
 
+        }));
+
+    // Passport JWT Strategy
+    passport.use('jwt-auth', new JwtStrategy({
+
+        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+        secretOrKey: jwt_secret.secret,
+    },
+        (jwt_payload, done) => {
+            console.log('payload', jwt_payload)
+            User.findOne({ 'local.email' : jwt_payload.email}, (err, user) => {
+                if(err)
+                    return done(err);
+                
+                if(user){
+                    return done(null, user, { message : 'A user was found thanks to the jwt token'});
+                } else {
+                    return done(null, false, { message : 'No user was found thanks to the jwt token'});
+                }
+            });
         }));
 
     // Passport Facebook Strategy
