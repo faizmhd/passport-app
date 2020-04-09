@@ -31,7 +31,7 @@ module.exports = (passport) => {
                         return done(err);
 
                     if (user) {
-                        return done(null, false, {message: 'That email is already taken.'});
+                        return done(null, false, { message: 'That email is already taken.' });
                     } else {
                         let newUser = new User();
 
@@ -54,7 +54,7 @@ module.exports = (passport) => {
     },
         (req, email, password, done) => {
             User.findOne({ 'local.email': email }, (err, user) => {
-                
+
                 if (err)
                     return done(err);
 
@@ -63,7 +63,7 @@ module.exports = (passport) => {
 
                 if (!user.validPassword(password))
                     return done(null, false, { message: 'Incorrect password.' });
-                
+
                 return done(null, user);
             });
 
@@ -77,14 +77,14 @@ module.exports = (passport) => {
     },
         (jwt_payload, done) => {
             console.log('payload', jwt_payload)
-            User.findOne({ 'local.email' : jwt_payload.email}, (err, user) => {
-                if(err)
+            User.findOne({ 'local.email': jwt_payload.email }, (err, user) => {
+                if (err)
                     return done(err);
-                
-                if(user){
-                    return done(null, user, { message : 'A user was found thanks to the jwt token'});
+
+                if (user) {
+                    return done(null, user, { message: 'A user was found thanks to the jwt token' });
                 } else {
-                    return done(null, false, { message : 'No user was found thanks to the jwt token'});
+                    return done(null, false, { message: 'No user was found thanks to the jwt token' });
                 }
             });
         }));
