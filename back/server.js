@@ -2,7 +2,7 @@ let express  = require('express');
 let app      = express();
 let mongoose = require('mongoose');
 let passport = require('passport');
-require('dotenv').config()
+require('dotenv-flow').config();
 
 let morgan       = require('morgan');
 let cookieParser = require('cookie-parser');
