@@ -37,5 +37,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy" : "http://back:8000"
+  "proxy": "http://back:8000"
 }

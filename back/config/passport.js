@@ -76,7 +76,6 @@ module.exports = (passport) => {
         secretOrKey: jwt_secret.secret,
     },
         (jwt_payload, done) => {
-            console.log('payload', jwt_payload)
             User.findOne({ 'local.email': jwt_payload.email }, (err, user) => {
                 if (err)
                     return done(err);

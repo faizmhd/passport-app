@@ -9,10 +9,10 @@ module.exports = function (app, passport) {
       }
 
       if (passportUser) {
-        return res.json({ user: passportUser, token: passportUser.generateJWT(passportUser.local.email) });
+        return res.status(200).json({ user: passportUser, token: passportUser.generateJWT(passportUser.local.email) });
       }
 
-      return res.json({
+      return res.status(400).json({
         info
       });
     })(req, res, next);
@@ -30,7 +30,7 @@ module.exports = function (app, passport) {
         return res.json({ user: passportUser, token: passportUser.generateJWT(passportUser.local.email) });
       }
 
-      return res.json({
+      return res.status(400).json({
         info
       });
     })(req, res, next);
@@ -61,6 +61,24 @@ module.exports = function (app, passport) {
 
   app.get('/jwt', passport.authenticate('jwt-auth', { session: false }), (req, res) => {
     res.json({ user: req.user })
+  });
+
+  app.get('/token', (req, res, next) => {
+
+    return passport.authenticate('jwt-auth', { session: false }, (err, passportUser, info) => {
+      if (err) {
+        return res.status(401).json({ 'errors': err });
+      }
+
+      if (passportUser) {
+        return res.status(200).json({ user: passportUser});
+      }
+
+      return res.status(400).json({
+        info : 'Please check if your token is valid and provide a good one'
+      });
+    })(req, res, next);
+
   });
 
 };
