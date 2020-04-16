@@ -1,7 +1,7 @@
 version: "3.7"
 services:
   backend:
-    container_name: Faiz-App-Back-end
+    container_name: Passport-App-Back-end
     restart: always
     build:
       context: ./back
@@ -22,7 +22,7 @@ services:
     ports:
       - "27017:27017"
   frontend:
-    container_name: Faiz-App-Front-end
+    container_name: Passport-App-Front-end
     restart: always
     build: 
       context: ./front
