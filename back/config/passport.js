@@ -4,6 +4,7 @@ let GoogleStrategy = require('passport-google-oauth2').Strategy;
 let JwtStrategy = require('passport-jwt').Strategy,
     ExtractJwt = require('passport-jwt').ExtractJwt;
 let jwt_secret = require('./config');
+let LinkedInStrategy = require('passport-linkedin-oauth2').Strategy;
 
 let User = require('../app/models/user');
 
@@ -148,6 +149,41 @@ module.exports = (passport) => {
                         newUser.google.token = token;
                         newUser.google.name = profile.displayName;
                         newUser.google.email = profile.emails[0].value;
+
+                        newUser.save((err) => {
+                            if (err)
+                                throw err;
+                            return done(null, newUser);
+                        });
+                    }
+                });
+            });
+        }));
+
+    // Linkedin Strategy
+    passport.use(new LinkedInStrategy({
+
+        clientID: process.env.LINKEDIN_CLIENT_ID,
+        clientSecret: process.env.LINKEDIN_CLIENT_SECRET,
+        callbackURL: process.env.LINKEDIN_CALLBACK_URL,
+        scope: ['r_emailaddress', 'r_liteprofile']
+
+    },
+        (token, refreshToken, profile, done) => {
+            process.nextTick(() => {
+                User.findOne({ 'linkedin.id': profile.id }, (err, user) => {
+                    if (err)
+                        return done(err);
+
+                    if (user) {
+                        return done(null, user);
+                    } else {
+                        let newUser = new User();
+
+                        newUser.linkedin.id = profile.id;
+                        newUser.linkedin.token = token;
+                        newUser.linkedin.name = profile.displayName;
+                        newUser.linkedin.email = profile.emails[0].value;
 
                         newUser.save((err) => {
                             if (err)

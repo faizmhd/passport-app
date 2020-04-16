@@ -17,6 +17,7 @@ export class Welcome extends React.Component {
           <a href="/signup" class="btn btn-default"><span class="fa fa-user"></span> Local Signup</a>
           <a href="http://localhost:8000/auth/facebook" class="btn btn-primary"><span class="fa fa-facebook"></span> Facebook</a>
           <a href="http://localhost:8000/auth/google" class="btn btn-danger"><span class="fa fa-google-plus"></span> Google</a>
+          <a href="http://localhost:8000/auth/linkedin" class="btn btn-primary"><span class="fa fa-linkedin"></span> Linkedin</a>
         </div>
       </div>
     );

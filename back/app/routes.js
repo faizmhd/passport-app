@@ -59,6 +59,14 @@ module.exports = function (app, passport) {
       res.redirect('http://localhost:3000/game?token=' + token)
     });
 
+    app.get('/auth/linkedin', passport.authenticate('linkedin'));
+  
+    app.get('/auth/linkedin/callback',
+      passport.authenticate('linkedin', ), (req, res) => {
+        let token = req.user.linkedin.token;
+        res.redirect('http://localhost:3000/game?token=' + token)
+      });
+
   app.get('/jwt', passport.authenticate('jwt-auth', { session: false }), (req, res) => {
     res.json({ user: req.user })
   });
