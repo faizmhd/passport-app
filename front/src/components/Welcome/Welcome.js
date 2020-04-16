@@ -10,7 +10,7 @@ export class Welcome extends React.Component {
           <header className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
             <p>
-              Welcome to FaizApp !
+              Welcome to PassportApp !
               </p>
           </header>
           <a href="/login" class="btn btn-default"><span class="fa fa-user"></span> Local Login</a>
