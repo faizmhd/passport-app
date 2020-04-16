@@ -138,14 +138,14 @@ export class Game extends React.Component {
       if (move === 0) {
         return (
           <li key={move}>
-            <button onClick={() => this.jumpTo(move)}><Text>Revenir au début de la partie</Text></button>
+            <button onClick={() => this.jumpTo(move)}><Text>Go to game start</Text></button>
           </li>
         );
       }
       else {
         return (
           <li key={move}>
-            <button onClick={() => this.jumpTo(move)}><Text>Revenir au tour n°<Text style={styles.step}>{move}</Text> à la ligne {clic_location[0]} / colonne {clic_location[1]}</Text></button>
+            <button onClick={() => this.jumpTo(move)}><Text>Go to move #<Text style={styles.step}>{move}</Text> in line {clic_location[0]} / column {clic_location[1]}</Text></button>
           </li>
         );
       }
@@ -153,15 +153,15 @@ export class Game extends React.Component {
     });
     let status;
     if (winner) {
-      status = (this.state.xIsNext ? 'O' : 'X') + ' a gagné';
+      status = (this.state.xIsNext ? 'O' : 'X') + ' wins !';
       this.highlightSquare(winner);
     }
     else {
       if (this.state.stepNumber === 9) {
-        status = "Match nul";
+        status = "Draw";
       }
       else {
-        status = "Prochain joueur : " + (this.state.xIsNext ? 'X' : 'O');
+        status = "Next player : " + (this.state.xIsNext ? 'X' : 'O');
       }
     }
     return (
@@ -175,7 +175,7 @@ export class Game extends React.Component {
         </div>
         <div className="logout">
           <Button onClick={this.disconnect} block bssize="large" type="submit">
-            Se déconnecter
+            Logout
         </Button>
         </div>
       </div>
@@ -202,10 +202,3 @@ function calculateWinner(squares) {
   }
   return null;
 }
-
-// ========================================
-
-// ReactDOM.render(
-//   <Game />,
-//   document.getElementById('root')
-// );

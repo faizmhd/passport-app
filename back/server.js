@@ -2,7 +2,7 @@ let express  = require('express');
 let app      = express();
 let mongoose = require('mongoose');
 let passport = require('passport');
-require('dotenv').config()
+require('dotenv-flow').config();
 
 let morgan       = require('morgan');
 let cookieParser = require('cookie-parser');
@@ -10,7 +10,9 @@ let bodyParser   = require('body-parser');
 let session      = require('express-session');
 let cors         = require('cors');
 let helmet = require('helmet');
-let path = require('path');
+
+const port = process.env.SERVER_PORT || 8000;
+const title = process.env.TITLE || 'Passport App';
 
 // DB config
 let configDB = require('./config/database.js');
@@ -38,5 +40,5 @@ app.use(passport.session());
 
 require('./app/routes.js')(app, passport);
 
-app.listen(process.env.SERVER_PORT);
-console.log(process.env.TITLE +  ' is running on port : ' + process.env.SERVER_PORT);
+app.listen(port);
+console.log(title +  ' is running on port : ' + port);

@@ -37,5 +37,9 @@
       "last 1 safari version"
     ]
   },
-  "proxy" : "http://back:8000"
+  "proxy": "http://back:8000",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faizmhd/passport-app.git"
+  }
 }
