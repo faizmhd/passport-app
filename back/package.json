@@ -28,5 +28,9 @@
     "passport-google-oauth2": "^0.2.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/faizmhd/passport-app.git"
   }
 }
